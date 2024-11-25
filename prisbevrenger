@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prisberegner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            max-width: 600px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+        }
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Prisberegner</h1>
+    <form id="priceCalculator">
+        <div class="form-group">
+            <label for="taskType">Type af opgave:</label>
+            <select id="taskType">
+                <option value="16000">Hel dagsproduktion (8 timer) - 16.000 DKK</option>
+                <option value="8500">Halv dagsproduktion (4 timer) - 8.500 DKK</option>
+                <option value="6000">Mindre opgave (2-3 timer) - 6.000 DKK</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="imageCount">Antal billeder:</label>
+            <input type="number" id="imageCount" min="0" placeholder="Antal billeder">
+        </div>
+
+        <div class="form-group">
+            <label for="rights">Brug af billeder:</label>
+            <select id="rights">
+                <option value="0">Intern brug (0 DKK pr. billede)</option>
+                <option value="2000">Sociale medier (2.000 DKK pr. billede)</option>
+                <option value="3000">Trykte medier (3.000 DKK pr. billede)</option>
+                <option value="5000">Outdoor reklamer (5.000 DKK pr. billede)</option>
+                <option value="7500">TV/webreklamer (7.500 DKK pr. billede)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="retouchCount">Antal billeder til retouchering:</label>
+            <input type="number" id="retouchCount" min="0" placeholder="Antal billeder">
+        </div>
+
+        <button type="button" onclick="calculatePrice()">Beregn pris</button>
+    </form>
+
+    <h2>Totalpris: <span id="totalPrice">0 DKK</span></h2>
+
+    <script>
+        function calculatePrice() {
+            const taskPrice = parseFloat(document.getElementById('taskType').value);
+            const imageCount = parseInt(document.getElementById('imageCount').value) || 0;
+            const rightsPrice = parseFloat(document.getElementById('rights').value);
+            const retouchCount = parseInt(document.getElementById('retouchCount').value) || 0;
+            const retouchPrice = 1000; // Retouch pris pr. billede
+
+            const rightsTotal = imageCount * rightsPrice;
+            const retouchTotal = retouchCount * retouchPrice;
+
+            const totalPrice = taskPrice + rightsTotal + retouchTotal;
+            document.getElementById('totalPrice').textContent = `${totalPrice.toLocaleString()} DKK`;
+        }
+    </script>
+</body>
+</html>
